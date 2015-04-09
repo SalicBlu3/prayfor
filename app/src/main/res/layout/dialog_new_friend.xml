@@ -18,38 +18,48 @@
         app:met_floatingLabelAlwaysShown="true"
         app:met_floatingLabelText="Name of your friend" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
         android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/toggle" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/editFriendGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_margin="5dp"
+            android:layout_toLeftOf="@+id/toggle"
             android:layout_weight="1"
             android:gravity="center"
             android:hint="Group..."
             android:padding="10dp"
+            android:visibility="invisible"
             app:met_floatingLabel="highlight"
             app:met_floatingLabelAlwaysShown="true"
             app:met_floatingLabelText="Group" />
 
         <ToggleButton
+            android:id="@+id/toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/edit_friend_group_toggle"
-            android:background="@android:color/transparent"
-            android:textOn=""
-            android:textOff=""
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:checked="false"
+            android:drawableTop="@drawable/edit_friend_group_toggle"
             android:gravity="center"
-            android:checked="true"
-            android:id="@+id/toggle" />
-    </LinearLayout>
+            android:textOff=""
+            android:textOn="" />
+    </RelativeLayout>
 
 
 </LinearLayout>

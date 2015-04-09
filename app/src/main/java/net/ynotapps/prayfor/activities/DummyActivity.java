@@ -16,6 +16,7 @@ import net.ynotapps.prayfor.R;
 import net.ynotapps.prayfor.model.dto.Friend;
 import net.ynotapps.prayfor.model.dto.FriendGroup;
 import net.ynotapps.prayfor.model.dto.FriendGroupMap;
+import net.ynotapps.prayfor.views.dialogs.NewFriendDialog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -42,29 +43,7 @@ public class DummyActivity extends ActionBarActivity {
         final MaterialEditText friendGroup = ButterKnife.findById(form, R.id.editFriendGroup);
 
         // Open Dialog
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Add a new friend")
-                .setView(form)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String friendNameString = friendName.getText().toString();
-                        String friendGroupString = friendGroup.getText().toString();
-                        feedback.setText(String.format("Saved %s in %s", friendNameString, friendGroupString));
-
-                        Friend newFriend = new Friend(friendNameString);
-                        newFriend.save();
-
-                        FriendGroup newGroup = new FriendGroup(friendGroupString);
-                        newGroup.save();
-
-                        FriendGroupMap map = new FriendGroupMap();
-                        map.setFriend(newFriend);
-                        map.setFriendGroup(newGroup);
-                        map.save();
-                    }
-                })
-                .show();
+        new NewFriendDialog(this).show();
     }
 
     @OnClick(R.id.btFriendGroupView)

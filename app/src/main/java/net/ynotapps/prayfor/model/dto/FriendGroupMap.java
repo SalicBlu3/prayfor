@@ -6,6 +6,7 @@ import com.orm.SugarRecord;
  * Maps Friends to a Group in a many to many relationship
  */
 public class FriendGroupMap extends SugarRecord<FriendGroupMap> {
+
     private Friend friend;
     private FriendGroup friendGroup;
 
