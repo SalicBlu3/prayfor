@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import net.ynotapps.prayfor.R;
@@ -19,8 +21,10 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-import static android.view.View.*;
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static android.view.View.inflate;
 
 /**
  * Dialog to
@@ -64,8 +68,8 @@ public class NewFriendDialog extends AlertDialog {
             toggle.setVisibility(GONE);
             displayGroupNew();
         } else {
-            ArrayAdapter<FriendGroup> friendGroupArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, friendGroups);
-            spinner.setAdapter(friendGroupArrayAdapter);
+            FriendGroupAdapter adapter = new FriendGroupAdapter(getContext(), FriendGroup.listAll(FriendGroup.class));
+            spinner.setAdapter(adapter);
         }
         setView(customView);
 
@@ -89,6 +93,14 @@ public class NewFriendDialog extends AlertDialog {
 
                 // Create Friend
                 String friendName = editFriendName.getText().toString();
+
+                // Ignore if friend name is empty
+                if (friendName.trim().isEmpty()) {
+                    String errorMessage = getContext().getResources().getString(R.string.new_friend_dialog_error_message_empty_name);
+                    Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Friend friend = new Friend(friendName);
                 friend.save();
 
@@ -100,7 +112,7 @@ public class NewFriendDialog extends AlertDialog {
                     friendGroup = new FriendGroup(friendGroupName);
                     friendGroup.save();
                 } else {
-                    friendGroup = new FriendGroup();
+                    friendGroup = (FriendGroup) spinner.getSelectedView().getTag();
                 }
 
                 FriendGroupMap friendGroupMap = new FriendGroupMap(friend, friendGroup);
@@ -113,8 +125,53 @@ public class NewFriendDialog extends AlertDialog {
     private void setupNegativeButton() {
         setButton(BUTTON_NEGATIVE, "Cancel", new OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {}
+            public void onClick(DialogInterface dialog, int which) {
+            }
         });
+    }
+
+    static class FriendGroupAdapter extends BaseAdapter {
+
+        private Context context;
+        private List<FriendGroup> friendgroupList;
+
+        FriendGroupAdapter(Context context, List<FriendGroup> friendgroupList) {
+            this.context = context;
+            this.friendgroupList = friendgroupList;
+        }
+
+        @Override
+        public int getCount() {
+            return friendgroupList.size();
+        }
+
+        @Override
+        public FriendGroup getItem(int position) {
+            return friendgroupList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return getItem(position).getId();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            TextView textView;
+
+            if (convertView == null) {
+                textView = (TextView) View.inflate(context, android.R.layout.simple_list_item_1, null);
+            } else {
+                textView = (TextView) convertView;
+            }
+
+            FriendGroup bean = getItem(position);
+            textView.setText(bean.getName());
+            textView.setTag(bean);
+
+            return textView;
+        }
     }
 
 }
