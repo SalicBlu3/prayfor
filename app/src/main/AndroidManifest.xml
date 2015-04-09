@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.ynotapps.prayfor" >
+    package="net.ynotapps.prayfor">
 
     <application
+        android:name="com.orm.SugarApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
-            android:label="@string/app_name" >
+            android:name=".activities.SplashActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".activities.ViewFriendsActivity"
+            android:label="@string/title_activity_list"></activity>
+        <activity
+            android:name=".activities.DummyActivity"
+            android:label="@string/title_activity_dummy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.ListActivity"
-            android:label="@string/title_activity_list" >
-        </activity>
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="pray_for.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="net.ynotapps.prayfor" />
+
     </application>
 
 </manifest>
