@@ -37,6 +37,7 @@ public class ViewFriendsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        setTitle("Your Friend Groups");
         ButterKnife.inject(this);
         adapter = new FriendGroupPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
