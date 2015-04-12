@@ -181,10 +181,6 @@ public class ViewFriendsActivity extends ActionBarActivity {
             this.friendGroup = friendGroup;
         }
 
-        public void refresh() {
-            adapter.notifyDataSetChanged();
-        }
-
         public String getTitle() {
             return friendGroup.getName();
         }
