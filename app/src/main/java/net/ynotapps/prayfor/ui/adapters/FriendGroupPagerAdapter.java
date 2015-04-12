@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import net.ynotapps.prayfor.model.dto.FriendGroup;
-import net.ynotapps.prayfor.ui.fragments;
+import net.ynotapps.prayfor.ui.fragments.FriendGroupFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class FriendGroupPagerAdapter extends FragmentStatePagerAdapter {
 
-    List<fragments.FriendGroupFragment> fragmentList = new ArrayList<>();
+    List<FriendGroupFragment> fragmentList = new ArrayList<>();
 
     public FriendGroupPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -29,9 +29,9 @@ public class FriendGroupPagerAdapter extends FragmentStatePagerAdapter {
 
     private void refreshFragments() {
         List<FriendGroup> friendGroups = FriendGroup.find(FriendGroup.class, "", new String[]{});
-        ArrayList<fragments.FriendGroupFragment> updatedFriendGroupList = new ArrayList<>();
+        ArrayList<FriendGroupFragment> updatedFriendGroupList = new ArrayList<>();
         for (FriendGroup friendGroup : friendGroups) {
-            fragments.FriendGroupFragment friendGroupFragment = new fragments.FriendGroupFragment();
+            FriendGroupFragment friendGroupFragment = new FriendGroupFragment();
             friendGroupFragment.setFriendGroup(friendGroup);
             updatedFriendGroupList.add(friendGroupFragment);
         }
