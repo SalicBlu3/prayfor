@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.rengwuxian.materialedittext.MaterialEditText xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal|top"
+    android:inputType="textCapWords"
+    android:padding="20dp"
+    app:met_floatingLabel="normal"
+    app:met_floatingLabelAlwaysShown="true">
+
+</com.rengwuxian.materialedittext.MaterialEditText>

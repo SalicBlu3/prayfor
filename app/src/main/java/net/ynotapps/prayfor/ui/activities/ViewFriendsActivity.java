@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 import net.ynotapps.prayfor.R;
 import net.ynotapps.prayfor.model.controllers.FriendGroupUtils;
 import net.ynotapps.prayfor.model.dto.Friend;
@@ -15,7 +17,11 @@ import net.ynotapps.prayfor.model.dto.FriendGroup;
 import net.ynotapps.prayfor.model.dto.FriendGroupMap;
 import net.ynotapps.prayfor.ui.adapters.FriendGroupPagerAdapter;
 import net.ynotapps.prayfor.ui.fragments.FriendGroupFragment;
+import net.ynotapps.prayfor.ui.views.dialogs.EditTextDialog;
 import net.ynotapps.prayfor.ui.views.dialogs.NewFriendDialog;
+
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -50,11 +56,12 @@ public class ViewFriendsActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        final FriendGroup activeFriendGroup = getActiveFriendGroup();
         switch (id) {
             case R.id.action_delete:
                 new AlertDialog.Builder(this)
-                        .setMessage(String.format("Would you like to delete %s", getActiveFriendGroup().getName()))
+                        .setTitle("Delete Group")
+                        .setMessage(String.format("Would you like to delete %s", activeFriendGroup.getName()))
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -71,6 +78,34 @@ public class ViewFriendsActivity extends ActionBarActivity {
                         addNewFriend(friendName, friendGroupName);
                     }
                 }.show();
+                break;
+            case R.id.action_rename:
+
+                final EditTextDialog editTextDialog = new EditTextDialog(this,
+                        Arrays.asList("New Name"),
+                        Arrays.asList(String.format("New name for %s...", activeFriendGroup.getName()))) {
+                    @Override
+                    public void processFields(List<MaterialEditText> fieldList) {
+                        String updatedName = fieldList.get(0).getText().toString();
+                        activeFriendGroup.setName(updatedName);
+                        activeFriendGroup.save();
+                        adapter.notifyDataSetChanged();
+                    }
+                };
+                editTextDialog.setTitle("Rename Group");
+                editTextDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        editTextDialog.processFields(editTextDialog.getFieldList());
+                    }
+                });
+                editTextDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                editTextDialog.show();
                 break;
         }
 
