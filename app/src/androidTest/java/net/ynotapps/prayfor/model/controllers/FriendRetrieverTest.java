@@ -1,30 +1,32 @@
-//package net.ynotapps.prayfor.model.controllers;
-//
-//import android.test.ActivityInstrumentationTestCase2;
-//
-//import junit.framework.TestCase;
-//
-//import net.ynotapps.prayfor.ui.activities.DummyActivity;
-//import net.ynotapps.prayfor.model.dto.Friend;
-//import net.ynotapps.prayfor.model.dto.FriendGroup;
-//import net.ynotapps.prayfor.model.dto.FriendGroupMap;
-//
-//import org.junit.Test;
-//
-//import java.util.List;
-//
-//public class FriendRetrieverTest extends TestCase {
-//
-//    @Test
-//    public void testRetrieveNoFriendsFromGroup() throws Exception {
+package net.ynotapps.prayfor.model.controllers;
+
+import com.orm.SugarApp;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.TestLifecycleApplication;
+import org.robolectric.annotation.Config;
+
+import java.lang.reflect.Method;
+
+@RunWith(RobolectricTestRunner.class)
+@Config(manifest = "./app/src/main/AndroidManifest.xml", emulateSdk = 18)
+public class FriendRetrieverTest extends SugarApp implements TestLifecycleApplication {
+
+    @Test
+    public void testRetrieveNoFriendsFromGroup() throws Exception {
+        // TODO: find out how to get Sugar ORM to talk nice with Robolectric
+//        FriendGroup.deleteAll(FriendGroup.class);
 //        FriendGroup friendGroup = new FriendGroup("FriendGroup");
 //        friendGroup.save();
 //        List<Friend> retrievedFriendsList = FriendRetriever.retrieveAllFriendsFromGroup(friendGroup);
 //        assertEquals(0, retrievedFriendsList.size());
-//    }
-//
-//    @Test
-//    public void testRetrieveManyFriendsFromManyGroups() throws Exception {
+    }
+
+    @Test
+    public void testRetrieveManyFriendsFromManyGroups() throws Exception {
+//        Friend.deleteAll(Friend.class);
 //        Friend friend1 = new Friend("Friend1");
 //        Friend friend2 = new Friend("Friend2");
 //        Friend friend3 = new Friend("Friend3");
@@ -53,10 +55,25 @@
 //        List<Friend> friendsFromGroup2 = FriendRetriever.retrieveAllFriendsFromGroup(friendGroup2);
 //        assertEquals(2, friendsFromGroup1.size());
 //        assertEquals(3, friendsFromGroup2.size());
-//    }
-//
-//    @Test
-//    public void testRetrieveAllGroupsThatContainFriend() throws Exception {
-//
-//    }
-//}
+    }
+
+    @Test
+    public void testRetrieveAllGroupsThatContainFriend() throws Exception {
+
+    }
+
+    @Override
+    public void beforeTest(Method method) {
+
+    }
+
+    @Override
+    public void prepareTest(Object o) {
+
+    }
+
+    @Override
+    public void afterTest(Method method) {
+
+    }
+}

@@ -12,7 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    sourceSets{
+    sourceSets {
         androidTest.setRoot('src/androidTest')
     }
     buildTypes {
@@ -35,6 +35,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.android.support:support-v4:21.0.0'
+
     // Third Party Apps
     compile 'com.github.satyan:sugar:1.3'
     compile 'com.jakewharton:butterknife:6.1.0'
