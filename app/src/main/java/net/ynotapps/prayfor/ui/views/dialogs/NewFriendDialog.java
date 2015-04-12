@@ -1,4 +1,4 @@
-package net.ynotapps.prayfor.views.dialogs;
+package net.ynotapps.prayfor.ui.views.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;

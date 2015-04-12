@@ -1,10 +1,8 @@
-package net.ynotapps.prayfor.activities;
+package net.ynotapps.prayfor.ui.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,10 +11,7 @@ import android.widget.TextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import net.ynotapps.prayfor.R;
-import net.ynotapps.prayfor.model.dto.Friend;
-import net.ynotapps.prayfor.model.dto.FriendGroup;
-import net.ynotapps.prayfor.model.dto.FriendGroupMap;
-import net.ynotapps.prayfor.views.dialogs.NewFriendDialog;
+import net.ynotapps.prayfor.ui.views.dialogs.NewFriendDialog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

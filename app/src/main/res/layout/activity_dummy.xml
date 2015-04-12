@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="net.ynotapps.prayfor.activities.DummyActivity">
+    tools:context="net.ynotapps.prayfor.ui.activities.DummyActivity">
 
     <TextView
         android:id="@+id/feedback"

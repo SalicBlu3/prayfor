@@ -1,12 +1,14 @@
-package net.ynotapps.prayfor.activities;
+package net.ynotapps.prayfor.ui.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +43,6 @@ public class ViewFriendsActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
     }
@@ -55,11 +56,24 @@ public class ViewFriendsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_delete) {
+            new AlertDialog.Builder(this)
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteFriendGroup();
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
+    }
+
+    private void deleteFriendGroup() {
+        
     }
 
     public static class FriendGroupPagerAdapter extends FragmentStatePagerAdapter{

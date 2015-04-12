@@ -9,13 +9,13 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:label="@string/app_name"></activity>
         <activity
-            android:name=".activities.ViewFriendsActivity"
+            android:name=".ui.activities.ViewFriendsActivity"
             android:label="@string/title_activity_list"></activity>
         <activity
-            android:name=".activities.DummyActivity"
+            android:name=".ui.activities.DummyActivity"
             android:label="@string/title_activity_dummy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
