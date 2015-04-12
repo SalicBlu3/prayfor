@@ -14,6 +14,7 @@ import net.ynotapps.prayfor.model.dto.Friend;
 import net.ynotapps.prayfor.model.dto.FriendGroup;
 import net.ynotapps.prayfor.model.dto.FriendGroupMap;
 import net.ynotapps.prayfor.ui.adapters.FriendGroupPagerAdapter;
+import net.ynotapps.prayfor.ui.fragments.FriendGroupFragment;
 import net.ynotapps.prayfor.ui.views.dialogs.NewFriendDialog;
 
 import butterknife.ButterKnife;
@@ -53,6 +54,7 @@ public class ViewFriendsActivity extends ActionBarActivity {
         switch (id) {
             case R.id.action_delete:
                 new AlertDialog.Builder(this)
+                        .setMessage(String.format("Would you like to delete %s", getActiveFriendGroup().getName()))
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -94,6 +96,15 @@ public class ViewFriendsActivity extends ActionBarActivity {
     }
 
     private void deleteFriendGroup() {
+        getActiveFriendGroup().delete();
+        adapter.notifyDataSetChanged();
+    }
 
+    private FriendGroup getActiveFriendGroup() {
+        return getActiveFriendGroupFragment().getFriendGroup();
+    }
+
+    private FriendGroupFragment getActiveFriendGroupFragment() {
+        return (FriendGroupFragment) adapter.getItem(pager.getCurrentItem());
     }
 }
