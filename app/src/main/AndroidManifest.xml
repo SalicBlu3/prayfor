@@ -15,16 +15,18 @@
         <activity
             android:name=".ui.activities.ViewFriendsActivity"
             android:label="@string/title_activity_list"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activities.DummyActivity"
             android:label="@string/title_activity_dummy"
             android:screenOrientation="portrait">
-        <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data

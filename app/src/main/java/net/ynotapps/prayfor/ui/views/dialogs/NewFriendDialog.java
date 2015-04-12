@@ -13,9 +13,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import net.ynotapps.prayfor.R;
-import net.ynotapps.prayfor.model.dto.Friend;
 import net.ynotapps.prayfor.model.dto.FriendGroup;
-import net.ynotapps.prayfor.model.dto.FriendGroupMap;
 
 import java.util.List;
 
@@ -27,9 +25,9 @@ import static android.view.View.VISIBLE;
 import static android.view.View.inflate;
 
 /**
- * Dialog to
+ * Dialog to Save friend
  */
-public class NewFriendDialog extends AlertDialog {
+public abstract class NewFriendDialog extends AlertDialog {
 
     private TextView editFriendGroup;
     private TextView editFriendName;
@@ -42,6 +40,8 @@ public class NewFriendDialog extends AlertDialog {
         setupPositiveButton();
         setupNegativeButton();
     }
+
+    public abstract void processNewData(String friendName, String friendGroupName);
 
     private void setupCustomView() {
         View customView = inflate(getContext(), R.layout.dialog_new_friend, null);
@@ -87,7 +87,7 @@ public class NewFriendDialog extends AlertDialog {
 
     // Save button
     private void setupPositiveButton() {
-        setButton(BUTTON_POSITIVE, "Save", new OnClickListener() {
+        OnClickListener listener = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -101,24 +101,18 @@ public class NewFriendDialog extends AlertDialog {
                     return;
                 }
 
-                Friend friend = new Friend(friendName);
-                friend.save();
-
-                FriendGroup friendGroup;
-
                 // Create Friend Group if required
+                String friendGroupName = "";
                 if (editFriendGroup.getVisibility() == VISIBLE) {
-                    String friendGroupName = editFriendGroup.getText().toString();
-                    friendGroup = new FriendGroup(friendGroupName);
-                    friendGroup.save();
+                    friendGroupName = editFriendGroup.getText().toString();
                 } else {
-                    friendGroup = (FriendGroup) spinner.getSelectedView().getTag();
+                    friendGroupName = ((FriendGroup) spinner.getSelectedItem()).getName();
                 }
 
-                FriendGroupMap friendGroupMap = new FriendGroupMap(friend, friendGroup);
-                friendGroupMap.save();
+                processNewData(friendName, friendGroupName);
             }
-        });
+        };
+        setButton(BUTTON_POSITIVE, "Save", listener);
     }
 
     // Cancel button that just closes the dialog

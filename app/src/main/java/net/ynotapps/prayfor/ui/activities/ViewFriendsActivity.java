@@ -18,9 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import net.ynotapps.prayfor.R;
+import net.ynotapps.prayfor.model.controllers.FriendGroupUtils;
 import net.ynotapps.prayfor.model.controllers.FriendRetriever;
 import net.ynotapps.prayfor.model.dto.Friend;
 import net.ynotapps.prayfor.model.dto.FriendGroup;
+import net.ynotapps.prayfor.model.dto.FriendGroupMap;
+import net.ynotapps.prayfor.ui.views.dialogs.NewFriendDialog;
 
 import java.util.List;
 
@@ -32,13 +35,15 @@ public class ViewFriendsActivity extends ActionBarActivity {
 
     @InjectView(R.id.pager)
     ViewPager pager;
+    private FriendGroupPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         ButterKnife.inject(this);
-        pager.setAdapter(new FriendGroupPagerAdapter(getSupportFragmentManager()));
+        adapter = new FriendGroupPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
     }
 
     @Override
@@ -56,27 +61,54 @@ public class ViewFriendsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_delete) {
-            new AlertDialog.Builder(this)
-                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            deleteFriendGroup();
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
-            return true;
+        switch (id) {
+            case R.id.action_delete:
+                new AlertDialog.Builder(this)
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteFriendGroup();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+                break;
+            case R.id.action_add_friend:
+                new NewFriendDialog(this) {
+                    @Override
+                    public void processNewData(String friendName, String friendGroupName) {
+                        addNewFriend(friendName, friendGroupName);
+                    }
+                }.show();
+                break;
         }
 
         return true;
     }
 
-    private void deleteFriendGroup() {
-        
+    private void addNewFriend(String friendName, String friendGroupName) {
+
+        Friend friend = new Friend(friendName);
+        friend.save();
+
+        FriendGroup friendGroup;
+        if (FriendGroupUtils.containsFriendGroup(friendGroupName)) {
+            friendGroup = FriendGroupUtils.getFriendGroup(friendGroupName).get(0);
+        } else {
+            friendGroup = new FriendGroup(friendGroupName);
+            friendGroup.save();
+        }
+
+        FriendGroupMap map = new FriendGroupMap(friend, friendGroup);
+        map.save();
+        adapter.notifyDataSetChanged();
     }
 
-    public static class FriendGroupPagerAdapter extends FragmentStatePagerAdapter{
+    private void deleteFriendGroup() {
+
+    }
+
+    public static class FriendGroupPagerAdapter extends FragmentStatePagerAdapter {
 
         public FriendGroupPagerAdapter(FragmentManager fm) {
             super(fm);

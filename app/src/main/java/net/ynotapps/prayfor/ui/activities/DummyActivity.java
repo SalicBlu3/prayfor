@@ -8,10 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.rengwuxian.materialedittext.MaterialEditText;
-
 import net.ynotapps.prayfor.R;
-import net.ynotapps.prayfor.ui.views.dialogs.NewFriendDialog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,13 +29,6 @@ public class DummyActivity extends ActionBarActivity {
 
     @OnClick(R.id.btCreateFriend)
     public void createFriend(View view) {
-
-        View form = View.inflate(this, R.layout.dialog_new_friend, null);
-        final MaterialEditText friendName = ButterKnife.findById(form, R.id.editFriendName);
-        final MaterialEditText friendGroup = ButterKnife.findById(form, R.id.editFriendGroup);
-
-        // Open Dialog
-        new NewFriendDialog(this).show();
     }
 
     @OnClick(R.id.btFriendGroupView)
