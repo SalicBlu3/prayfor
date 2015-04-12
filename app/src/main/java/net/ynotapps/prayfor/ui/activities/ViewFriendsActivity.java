@@ -25,6 +25,7 @@ import net.ynotapps.prayfor.model.dto.FriendGroup;
 import net.ynotapps.prayfor.model.dto.FriendGroupMap;
 import net.ynotapps.prayfor.ui.views.dialogs.NewFriendDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -110,33 +111,55 @@ public class ViewFriendsActivity extends ActionBarActivity {
 
     public static class FriendGroupPagerAdapter extends FragmentStatePagerAdapter {
 
+        List<FriendGroupFragment> fragmentList = new ArrayList<>();
+
         public FriendGroupPagerAdapter(FragmentManager fm) {
             super(fm);
+            refreshFragments();
         }
 
         @Override
         public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        private void refreshFragments() {
             List<FriendGroup> friendGroups = FriendGroup.find(FriendGroup.class, "", new String[]{});
-            FriendGroupFragment friendGroupFragment = new FriendGroupFragment();
-            friendGroupFragment.setFriendGroup(friendGroups.get(position));
-            return friendGroupFragment;
+            ArrayList<FriendGroupFragment> updatedFriendGroupList = new ArrayList<>();
+            for (FriendGroup friendGroup : friendGroups) {
+                FriendGroupFragment friendGroupFragment = new FriendGroupFragment();
+                friendGroupFragment.setFriendGroup(friendGroup);
+                updatedFriendGroupList.add(friendGroupFragment);
+            }
+            fragmentList = updatedFriendGroupList;
         }
 
         @Override
         public int getCount() {
-            return (int) FriendGroup.count(FriendGroup.class, "", new String[]{});
+            return fragmentList.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            FriendGroupFragment fragment = (FriendGroupFragment) getItem(position);
-            return fragment.getFriendGroup().getName();
+            return fragmentList.get(position).getTitle();
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            refreshFragments();
+            super.notifyDataSetChanged();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
     }
 
     public static class FriendGroupFragment extends Fragment {
 
         private FriendGroup friendGroup;
+        private ArrayAdapter<Friend> adapter;
 
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -144,7 +167,7 @@ public class ViewFriendsActivity extends ActionBarActivity {
 
             // Add data to List View
             List<Friend> friends = FriendRetriever.retrieveAllFriendsFromGroup(friendGroup);
-            ArrayAdapter<Friend> adapter = new ArrayAdapter<Friend>(getActivity(), android.R.layout.simple_list_item_1, friends);
+            adapter = new ArrayAdapter<Friend>(getActivity(), android.R.layout.simple_list_item_1, friends);
             listView.setAdapter(adapter);
 
             return listView;
@@ -156,6 +179,14 @@ public class ViewFriendsActivity extends ActionBarActivity {
 
         public void setFriendGroup(FriendGroup friendGroup) {
             this.friendGroup = friendGroup;
+        }
+
+        public void refresh() {
+            adapter.notifyDataSetChanged();
+        }
+
+        public String getTitle() {
+            return friendGroup.getName();
         }
     }
 }
